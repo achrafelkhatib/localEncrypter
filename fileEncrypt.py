@@ -27,12 +27,7 @@ def saveKey(key):                                                   #save's the 
         file_out.write(key)                                         #outputs the file
     print('Key saved successfully.')
 
-def fileNamer(length):                                              #creates a random name for the file at a random length
-    letters = string.ascii_lowercase
-    name = ''.join(random.choice(letters) for i in range(length))
-    return name 
-
-def nameEncrypter(file_name, key):                                              #checks if the file's name is unique
+def nameEncrypter(file_name, key):                                    
     f = fernet.Fernet(key)
     encrypted_name = f.encrypt(file_name.encode()).decode()
     return encrypted_name + ".encrypted"
