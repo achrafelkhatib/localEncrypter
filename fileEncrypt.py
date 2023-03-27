@@ -13,7 +13,7 @@ def encrypt_file(key):                                              #encrypts ev
         with open(file, 'rb') as input_file:
             input_data = input_file.read()                          #imports the data from the file
         encrypted_data = f.encrypt(input_data)                      #imports the encrypted data to the new file
-        outFileName = uniqueGen(nameLength)
+        outFileName = nameEncrypter(file, key)
         with open(outFileName, 'wb') as output_file:
             output_file.write(encrypted_data)                       #ouputs the file
         os.remove(file)                                             #removes the old unencrypted files
@@ -32,12 +32,10 @@ def fileNamer(length):                                              #creates a r
     name = ''.join(random.choice(letters) for i in range(length))
     return name 
 
-def uniqueGen(length):                                              #checks if the file's name is unique
-    while True: 
-        name = fileNamer(length)
-        file_path = os.path.join(os.getcwd(), name)
-        if not os.path.exists(file_path):                           #if the file name is not unique it will generate another name
-            return name 
+def nameEncrypter(file_name, key):                                              #checks if the file's name is unique
+    f = fernet.Fernet(key)
+    encrypted_name = f.encrypt(file_name.encode()).decode()
+    return encrypted_name + ".encrypted"
 
 
 # main
